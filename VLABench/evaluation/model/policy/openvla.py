@@ -29,7 +29,7 @@ class OpenVLA(Policy):
     )
     def __init__(self, 
                  model_ckpt,
-                 lora_ckpt, 
+                 lora_ckpt=None,
                  attn_implementation=None,
                  norm_config_file=None,
                  device="cuda",
@@ -38,7 +38,7 @@ class OpenVLA(Policy):
         """
         param:
             model_ckpt: path to the model checkpoint
-            lora_ckpt: path to the lora checkpoint
+            lora_ckpt: optional path to the LoRA adapter checkpoint
             attn_implementation: the implementation of attention layer, e.g. "torch" or "einsum"
             norm_config_file: path to the config file for denormalization to overide the default config
             device: cuda device to run
@@ -53,8 +53,15 @@ class OpenVLA(Policy):
             low_cpu_mem_usage=True,
             trust_remote_code=True,
         )
-        peft_config = PeftConfig.from_pretrained(lora_ckpt)
-        model = PeftModel.from_pretrained(model, lora_ckpt, config=peft_config).to(device)
+        if lora_ckpt:
+            adapter_config = os.path.join(lora_ckpt, "adapter_config.json")
+            if not os.path.exists(adapter_config):
+                raise FileNotFoundError(
+                    f"LoRA checkpoint must contain adapter_config.json: {adapter_config}"
+                )
+            peft_config = PeftConfig.from_pretrained(lora_ckpt)
+            model = PeftModel.from_pretrained(model, lora_ckpt, config=peft_config)
+        model = model.to(device)
         self.device = device
         super().__init__(model)
         

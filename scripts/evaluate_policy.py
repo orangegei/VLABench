@@ -1,4 +1,5 @@
 import os
+import json
 import argparse
 from VLABench.evaluation.evaluator import Evaluator
 from VLABench.evaluation.model.policy.openvla import OpenVLA
@@ -15,7 +16,8 @@ def get_args():
     parser.add_argument('--n-episode', default=1, type=int, help="The number of episodes to evaluate for a task")
     parser.add_argument('--policy', default="openvla", help="The policy to evaluate")
     parser.add_argument('--model_ckpt', default="/remote-home1/sdzhang/huggingface/openvla-7b", help="The base model checkpoint path")
-    parser.add_argument('--lora_ckpt', default="/remote-home1/pjliu/openvla/weights/vlabench/select_fruit+CSv1+lora/", help="The lora checkpoint path")
+    parser.add_argument('--lora_ckpt', default=None, help="Optional LoRA adapter checkpoint path")
+    parser.add_argument('--norm-config-file', default=None, help="Optional OpenVLA config file to copy into model_ckpt/config.json")
     parser.add_argument('--save-dir', default="logs", help="The directory to save the evaluation results")
     parser.add_argument('--visulization', action="store_true", default=False, help="Whether to visualize the episodes")
     parser.add_argument('--metrics', nargs='+', default=["success_rate"], choices=["success_rate", "intention_score", "progress_score"], help="The metrics to evaluate")
@@ -49,7 +51,7 @@ def evaluate(args):
         policy = OpenVLA(
             model_ckpt=args.model_ckpt,
             lora_ckpt=args.lora_ckpt,
-            norm_config_file=os.path.join(os.getenv("VLABENCH_ROOT"), "configs/model/openvla_config.json") # TODO: re-compuate the norm state by your own dataset
+            norm_config_file=args.norm_config_file,
         )
     elif args.policy.lower() == "gr00t":
         from VLABench.evaluation.model.policy.gr00t import Gr00tPolicy

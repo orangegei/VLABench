@@ -5,7 +5,7 @@ eval_tracks=("track_1_in_distribution" "track_2_cross_category" "track_3_common_
 
 EPISODE=50
 POLICY="openvla"
-LORA_CKPT="/remote-home1/sdzhang/project/openvla/weights/openvla-7b+vlabench_primitive+b16+lr-0.0005+lora-r32+dropout-0.0"
+MODEL_CKPT = "/seu_share/home/wangshuai01/213221090/hf_cache/openvla-lora"
 
 METRICS="success_rate intention_score progress_score"
 
@@ -16,7 +16,7 @@ for eval_track in "${eval_tracks[@]}"; do
         --eval-track $eval_track \
         --n-episode $EPISODE \
         --policy $POLICY \
-        --lora_ckpt $LORA_CKPT\
+        --model_ckpt $MODEL_CKPT \
         --visulization \
         --metrics $METRICS \
 
