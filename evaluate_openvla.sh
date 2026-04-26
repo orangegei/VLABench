@@ -5,7 +5,7 @@ eval_tracks=("track_1_in_distribution" "track_2_cross_category" "track_3_common_
 
 EPISODE=50
 POLICY="openvla"
-MODEL_CKPT = "/seu_share/home/wangshuai01/213221090/hf_cache/openvla-lora"
+MODEL_CKPT="/seu_share/home/wangshuai01/213221090/hf_cache/openvla-lora"
 
 METRICS="success_rate intention_score progress_score"
 
