@@ -1,5 +1,7 @@
 #bin/bash
 
+export MUJOCO_GL=egl
+
 tasks_to_eval="select_fruit select_toy select_poker select_painting select_mahjong" 
 eval_tracks=("track_1_in_distribution" "track_2_cross_category" "track_3_common_sense" "track_4_semantic_instruction" "track_6_unseen_texture")
 

@@ -1,13 +1,14 @@
 import os
 import json
 import argparse
+
+os.environ.setdefault("MUJOCO_GL", "egl")
+
 from VLABench.evaluation.evaluator import Evaluator
 from VLABench.evaluation.model.policy.openvla import OpenVLA
 from VLABench.evaluation.model.policy.base import RandomPolicy
 from VLABench.tasks import *
 from VLABench.robots import *
-
-os.environ["MUJOCO_GL"]= "egl"
 
 def get_args():
     parser = argparse.ArgumentParser()
