@@ -33,6 +33,7 @@ for model_spec in "${models[@]}"; do
             --openpi-config "$openpi_config" \
             --model_ckpt "$model_ckpt" \
             --save-dir "logs/$model_name" \
+            --visulization \
             --metrics $METRICS
     done
 done

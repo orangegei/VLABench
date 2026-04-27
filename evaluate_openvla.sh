@@ -25,5 +25,6 @@ for eval_track in "${eval_tracks[@]}"; do
         --n-episode "$EPISODE" \
         --policy "$POLICY" \
         --model_ckpt "$MODEL_CKPT" \
+        --visulization \
         --metrics $METRICS
 done

@@ -16,4 +16,5 @@ python scripts/evaluate_policy.py \
     --policy "$POLICY" \
     --openpi-config "$OPENPI_CONFIG" \
     --model_ckpt "$MODEL_CKPT" \
+    --visulization \
     --metrics progress_score
