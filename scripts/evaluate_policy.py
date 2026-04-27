@@ -25,6 +25,7 @@ def get_args():
     parser.add_argument('--host', default="localhost", type=str, help="The host to the remote server")
     parser.add_argument('--port', default=5555, type=int, help="The port to the remote server")
     parser.add_argument('--replanstep', default=4, type=int, help="The step to replan")
+    parser.add_argument('--openpi-config', default="pi0_vlabench_primitive_lora", help="The OpenPI config name")
     args = parser.parse_args()
     return args
 
@@ -58,8 +59,12 @@ def evaluate(args):
         from VLABench.evaluation.model.policy.gr00t import Gr00tPolicy
         policy = Gr00tPolicy(host=args.host, port=args.port, replan_steps=args.replanstep)
     elif args.policy.lower() == "openpi":
-        from VLABench.evaluation.model.policy.openpi import OpenPiPolicy
-        policy = OpenPiPolicy(host=args.host, port=args.port, replan_steps=args.replanstep)
+        from VLABench.evaluation.model.policy.openpi import LocalOpenPiPolicy
+        policy = LocalOpenPiPolicy(
+            config=args.openpi_config,
+            checkpoint_dir=args.model_ckpt,
+            replan_steps=args.replanstep,
+        )
     else:
         policy = RandomPolicy(None)
 
